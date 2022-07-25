@@ -29,8 +29,18 @@ pca.fit(X)
 print('PCA explained variance ratio:', pca.explained_variance_ratio_)
 print('PCA singular values:', pca.singular_values_)
 
-kmode = KModes(n_clusters=3, init = "random", n_init = 5, verbose=1)
-kmode = kmode.fit_predict(X)
+cost=[]
+K = range(1,5)
+for num_clusters in list(K):
+    kmode = KModes(n_clusters=num_clusters, init = "random", n_init = 5, verbose=1)
+    kmode.fit_predict(X)
+    cost.append(kmode.cost_)
+    
+plt.plot(K, cost, 'bx-')
+plt.xlabel('No. of clusters')
+plt.ylabel('Cost')
+plt.title('Elbow Method For Optimal k')
+plt.show()
 
 import plotly.express as px
 
@@ -42,4 +52,4 @@ labels = {
     for i, var in enumerate(pca.explained_variance_ratio_ * 100)
 }
 filename = '/Users/Jorg/BeCode2/Churn-project/model/model_kmode.sav'
-pickle.dump(kmode, open(filename, 'wb'))
+pickle.dump(cost, open(filename, 'wb'))
