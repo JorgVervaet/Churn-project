@@ -6,7 +6,7 @@ from flask import Flask, request, render_template
 app=Flask(__name__, template_folder='templates')
 @app.route('/')
 def index():
-    render_template('index.html')
+    return render_template('index.html')
 
 
 def ValuePredictor(to_predict_list):
