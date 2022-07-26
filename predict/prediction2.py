@@ -17,7 +17,7 @@ with open('/Users/Jorg/BeCode2/Churn-project/data/clean_BankChurners.csv') as f:
     df = pd.read_csv(f)
 
 # choosing the features (X)
-X = df[['CLIENTNUM', 'Attrition_Flag', 'Customer_Age', 
+X = df[['Customer_Age', 
        'Gender', 'Dependent_count', 'Education_Level', 'Marital_Status', 
        'Income_Category', 'Card_Category', 'Months_on_book', 'Total_Relationship_Count', 'Months_Inactive_12_mon', 
        'Contacts_Count_12_mon', 'Credit_Limit', 'Total_Revolving_Bal', 'Avg_Open_To_Buy', 'Total_Amt_Chng_Q4_Q1',

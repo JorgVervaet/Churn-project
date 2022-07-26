@@ -5,8 +5,10 @@ from numpy import unique
 from numpy import where
 from sklearn.datasets import make_classification
 from matplotlib import pyplot
+from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
-import pickle
+import joblib
+from sklearn.pipeline import Pipeline
 from sklearn.decomposition import PCA
 from imblearn.over_sampling import RandomOverSampler
 from kmodes.kmodes import KModes
@@ -17,11 +19,9 @@ with open('/Users/Jorg/BeCode2/Churn-project/data/clean_BankChurners.csv') as f:
     df = pd.read_csv(f)
 
 # choosing the features (X)
-X = df[['CLIENTNUM', 'Attrition_Flag', 'Customer_Age', 
-       'Gender', 'Dependent_count', 'Education_Level', 'Marital_Status', 
-       'Income_Category', 'Card_Category', 'Months_on_book', 'Total_Relationship_Count', 'Months_Inactive_12_mon', 
-       'Contacts_Count_12_mon', 'Credit_Limit', 'Total_Revolving_Bal', 'Avg_Open_To_Buy', 'Total_Amt_Chng_Q4_Q1',
-	    'Total_Trans_Amt', 'Total_Trans_Ct', 'Total_Ct_Chng_Q4_Q1', 'Avg_Utilization_Ratio']]
+X = df[['Customer_Age', 'Credit_Limit', 'Months_Inactive_12_mon', 'Total_Revolving_Bal', 
+       'Contacts_Count_12_mon']]
+
 
 
 pca = PCA(n_components=2)
@@ -29,17 +29,26 @@ pca.fit(X)
 print('PCA explained variance ratio:', pca.explained_variance_ratio_)
 print('PCA singular values:', pca.singular_values_)
 
-kmode = KModes(n_clusters=3, init = "random", n_init = 5, verbose=1)
-kmode = kmode.fit_predict(X)
-
 import plotly.express as px
 
+pca = PCA(n_components=2)
+components = pca.fit_transform(X)
 
-pca = PCA()
-components = pca.fit_transform(df)
-labels = {
-    str(i): f"PC {i+1} ({var:.1f}%)"
-    for i, var in enumerate(pca.explained_variance_ratio_ * 100)
-}
+kmode = KModes(n_clusters=3, init = "Huang", n_init = 5, verbose=1, random_state=2)
+kmode_res = kmode.fit_predict(X)
+
+
+fig = px.scatter_matrix(
+    components,
+    #dimensions=components,
+    color=kmode_res)
+
+fig.update_traces(diagonal_visible=False)
+fig.show()
+
 filename = '/Users/Jorg/BeCode2/Churn-project/model/model_kmode.sav'
-pickle.dump(kmode, open(filename, 'wb'))
+joblib.dump(kmode_res, filename)  
+print(kmode_res.shape)
+print(kmode_res)
+print(components)
+print(kmode.cluster_centroids_)
