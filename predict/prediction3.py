@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from numpy import unique
 from numpy import where
-from sklearn.cluster import DBSCAN, KMeans
+import hdbscan
 from sklearn.datasets import make_classification
 from matplotlib import pyplot
 from sklearn.preprocessing import StandardScaler
@@ -30,20 +30,22 @@ pca.fit(X)
 print('PCA explained variance ratio:', pca.explained_variance_ratio_)
 print('PCA singular values:', pca.singular_values_)
 
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+
 
 pca = PCA(n_components=2)
 components = pca.fit_transform(X)
 
-kmeans = DBSCAN(eps=3, min_samples=5).fit(X)
-kmeans_res = kmeans.fit_predict(X)
+hdb = hdbscan.HDBSCAN()
+hdb_res = hdb.fit_predict(X)
 
-plt.scatter(components[:,0] , components[:,1], c=kmeans_res)
+plt.scatter(components[:,0] , components[:,1], c=hdb_res)
 plt.show()
 
+
 filename = '/Users/Jorg/BeCode2/Churn-project/model/model_kmode.sav'
-joblib.dump(kmeans, filename)  
-print(kmeans_res.shape)
-print(kmeans_res)
+joblib.dump(hdb, filename)  
+print(hdb_res)
 print(components)
-print(kmeans.cluster_centers_)
-print(kmeans_res.shape)
+print(hdb_res.labels_.max())

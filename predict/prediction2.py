@@ -25,7 +25,7 @@ X = df[['Customer_Age',
 
 
 pca = PCA(n_components=2)
-pca.fit(X)
+components = pca.fit_transform(X)
 print('PCA explained variance ratio:', pca.explained_variance_ratio_)
 print('PCA singular values:', pca.singular_values_)
 
@@ -34,21 +34,12 @@ clustering = DBSCAN(eps=3, min_samples=2).fit(X)
 predict = clustering.fit_predict(X)
 cost.append(predict)
     
-plt.plot(predict, 'bx-')
-plt.xlabel('No. of clusters')
-plt.ylabel('Cost')
-plt.title('Elbow Method For Optimal k')
+plt.scatter(components[:,0] , components[:,1], c=cost)
 plt.show()
-
-import plotly.express as px
 
 
 pca = PCA()
 components = pca.fit_transform(X)
-labels = {
-    str(i): f"PC {i+1} ({var:.1f}%)"
-    for i, var in enumerate(pca.explained_variance_ratio_ * 100)
-}
 
 
 filename = '/Users/Jorg/BeCode2/Churn-project/model/model_dbscan.sav'
