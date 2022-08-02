@@ -36,5 +36,5 @@ plt.scatter(components[:,0] , components[:,1], c=kmeans_res)
 plt.show()
 
 # save our model
-filename = os.path.join('./model/model_kmode.sav')
+filename = os.path.join('./model/model_KMeans.sav')
 joblib.dump(kmeans, filename)  

@@ -11,7 +11,7 @@ def index():
 
 def ValuePredictor(to_predict_list):
 	to_predict = np.array(to_predict_list).reshape(1, 3)
-	loaded_model = joblib.load('./model/model_kmode.sav')
+	loaded_model = joblib.load('./model/model_KMeans.sav')
 	result = loaded_model.predict(to_predict)
 	return result[0]
 
