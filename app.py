@@ -1,4 +1,4 @@
-# prediction function
+# import the libraries
 import joblib
 import numpy as np
 from flask import Flask, request, render_template
