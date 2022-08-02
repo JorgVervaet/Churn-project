@@ -1,21 +1,34 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='./style.css') }}">
+<div class="login-box">
 <html>
 <body>
-	<h3>Churn Prediction Form</h3>
 
-<div>
+	<h2>Churn Prediction Form</h2>
 <form action="/result" method="POST">
-	<label for="Credit_Limit">Credit Limit </label>
-	<input type="text" id="Credit_Limit" name="Credit_Limit">btw:[0-999999999]
-	<br>
-	<label for="Total_Revolving_Bal">Total Revolving Balance </label>
-	<input type="text" id="Total_Revolving_Bal" name="Total_Revolving_Bal">btw:[1-999999999999]
-	<br>
-	<label for="Avg_Utilization_Ratio">Average Utilization Ratio </label>
-	<input type="text" id="Avg_Utilization_Ratio" name="Avg_Utilization_Ratio">btw:[1-99]
-	<br>
+	<div class="user-box">
+		<label for="Credit_Limit">Credit Limit </label>
+		<br>
+		<input type="text" id="Credit_Limit" name="Credit_Limit">
+		<br>
+	</div>
+	<div class="user-box"> 
+		<label for="Total_Revolving_Bal">Total Revolving Balance </label>
+		<br>
+		<input type="text" id="Total_Revolving_Bal" name="Total_Revolving_Bal">
+		<br>
+	</div>
+	<div class="user-box">
+  		<label for="Avg_Utilization_Ratio">Average Utilization Ratio </label>
+		<br>
+		<input type="text" id="Avg_Utilization_Ratio" name="Avg_Utilization_Ratio">
+		<br>
+	<a href="#">
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
 	<input type="submit" value="Submit">
 </form>
 </div>
 </body>
 </html>
-
