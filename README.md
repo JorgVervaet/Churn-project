@@ -6,66 +6,42 @@ This API is made to take the input of a user and predict if that client is likel
 
 ## Workflow
 
-Get the n latest tweets of a given Twitter account by using the official Twitter API
-Download all the images and videos shared in the tweets
-Extract all the faces from the images and videos by using OpenCV cascade classifier
-For the videos we focus on 1 pane out of 100 in order to lighten the process
-We apply a DBScan clustering on the faces popping out and we keep one face per cluster
-Encode the faces based on the face_recognition library
-Sort the faces based on their similarity with the encoding of a reference image
-Grey out the faces whose similarity is below a threshold of 0.9 (customisable)
-Build a mosaic of the transformed faces
-Usage
+First I made a program cleaning_data_dummies.py to get rid of columns we don't need and to make all data numerical. You can find this program in the preprocessing map.
 
-Create a Python virtual environment (> 3.9) and activate it
-Create a Dev API account (V1.1) on Twitter and fill the credentials.json accordingly
-pip install -r requirements.txt
-python main.py
-Example
+Then we made a program to make our model. This program is called prediction.py and you can find this one in the predict folder.
 
-python main.py
+I tested several models but for now KMeans gave the best results. I get a PCA explained variance ratio: [0.58962129 0.34704241]. So this is pretty good but I don't use that many features at the moment so this should be improved by implementing the use of the categorical data in the future.
 
-Please indicate a Twitter screen name to analyse:
-> BarackObama
+## Usage
 
-Please indicate an URL to the reference face:
-> https://pbs.twimg.com/profile_images/1329647526807543809/2SGvnHYV_400x400.jpg
+- Create a Python virtual environment (> 3.10) and activate it
+- pip install -r requirements.txt
+- python app.py
 
-Please insert a similarity threshold (suggested: 0.9):
-> 0.9 
+Or
 
-How many tweets do you want to analyse (max = 3200)?
-> 200
+- Install Docker (https://docs.docker.com/get-docker/)
+- docker build . -t app  
+- docker run -p 5001:5001 -t app
 
-Getting the latest 200 tweets from the user...
-200 tweets found
+<img src="images/Screenshot 2.png" style="width:600px;height:200px;">
 
-Getting images and videos URLS...
-68 images and 31 videos found
+in both examples you will get something looking like this and you will be able to click on the url where the API will work.
 
-Extracting faces from images...
-177 potential faces found on images
+Then you will get this screen:
 
-Extracting faces from videos...
-78 potential faces found on videos
+<img src="images/Screenshot 4.png" style="width:600px;height:200px;">
 
-Computing ratios and generating mosaic...
+Here you will have to fill in the Credit Limit, Total Revolving Balance and Average Utilization Ratio. After this you will get this screen to tell you in which cluster your client falls.
 
--------------------------------
+<img src="images/Screenshot 3.png" style="width:600px;height:200px;">
 
-The reference face appears 37 times out of 99 media shared by BarackObama (Ratio: 37.37%)
-The reference face appears 37 times out of 255 valid faces popping up in the media shared by BarackObama (Ratio: 14.51%)
 
-The mosaic has been generated : examples/BarackObama.png
-alt text
+## Author
 
-Author
+Jorg Vervaet
 
-Louis de Viron - DataText SRL
 
-Credentials
+This is a graph of the clusters:
 
-This tool is mainly based on the following python libraries:
-
-opencv-python
-face_recognition
+<img src="images/Screenshot 1.png" style="width:600px;height:200px;">
